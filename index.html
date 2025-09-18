@@ -330,6 +330,101 @@
             <p>Test how easy APIs can be with EzyAPI!</p>
         </div>
         
+
+
+
+            <!-- Quick Demo Section -->
+            <div class="demo-section">
+                <h3>🎯 Live Demo - Try These Free APIs</h3>
+                <p>Ready to see it in action? Click any card below to test EzyAPI with real APIs (no setup required):</p>
+                
+                <div class="example-apis">
+                    <div class="api-card" onclick="loadExample('user')">
+                        <h4>🧑 Random User</h4>
+                        <p>Fetch and display user data with automatic binding</p>
+                    </div>
+                    <div class="api-card" onclick="loadExample('joke')">
+                        <h4>😄 Random Joke</h4>
+                        <p>Get a random programming joke</p>
+                    </div>
+                    <div class="api-card" onclick="loadExample('cat')">
+                        <h4>🐱 Cat Facts</h4>
+                        <p>Learn interesting facts about cats</p>
+                    </div>
+                    <div class="api-card" onclick="loadExample('quote')">
+                        <h4>💭 Inspirational Quote</h4>
+                        <p>Get motivated with random quotes</p>
+                    </div>
+                </div>
+                
+                <div class="binding-demo" id="demo-result">
+                    <h4>📋 Result will appear here:</h4>
+                    <p>Name: <strong>{name}</strong></p>
+                    <p>Info: <strong>{info}</strong></p>
+                    <p>Extra: <strong>{extra}</strong></p>
+                    <p><em>Click an API card above to see the magic! ✨</em></p>
+                </div>
+            </div>
+
+            <!-- Custom API Testing -->
+            <div class="demo-section">
+                <h3>🔧 Test Your Own API</h3>
+                <p>Enter your API details below and see how EzyAPI simplifies everything:</p>
+                
+                <div class="api-form">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="api-url">API URL:</label>
+                            <input type="text" id="api-url" placeholder="https://api.example.com/data" value="https://jsonplaceholder.typicode.com/users/1">
+                        </div>
+                        <div class="form-group">
+                            <label for="method">Method:</label>
+                            <select id="method">
+                                <option value="GET">GET</option>
+                                <option value="POST">POST</option>
+                                <option value="PUT">PUT</option>
+                                <option value="DELETE">DELETE</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="headers">Headers (JSON format, optional):</label>
+                        <textarea id="headers" rows="3" placeholder='{"Authorization": "Bearer your-token", "Content-Type": "application/json"}'></textarea>
+                    </div>
+                    
+                    <div class="form-group" id="body-group" style="display: none;">
+                        <label for="body">Request Body (JSON):</label>
+                        <textarea id="body" rows="3" placeholder='{"key": "value"}'></textarea>
+                    </div>
+                    
+                    <button onclick="testCustomAPI()">🚀 Test API with EzyAPI</button>
+                </div>
+                
+                <div class="result-area" id="custom-result">
+                    <h4>📊 API Response:</h4>
+                    <p>Your API response will appear here...</p>
+                </div>
+                
+                <div class="binding-demo" id="custom-binding">
+                    <h4>🎯 Data Binding Example:</h4>
+                    <p>User: <strong>{name}</strong></p>
+                    <p>Email: <strong>{email}</strong></p>
+                    <p>Company: <strong>{company.name}</strong></p>
+                    <p>Website: <strong>{website}</strong></p>
+                    <p><em>Test an API to see automatic data binding in action!</em></p>
+                </div>
+            </div>
+
+
+
+
+
+
+
+
+
+
         <div class="content">
             <!-- Beginner Tutorial Section -->
             <div class="demo-section">
@@ -415,93 +510,313 @@
                 </div>
             </div>
 
-            <!-- Quick Demo Section -->
+            <!-- Framework Examples -->
             <div class="demo-section">
-                <h3>🎯 Live Demo - Try These Free APIs</h3>
-                <p>Ready to see it in action? Click any card below to test EzyAPI with real APIs (no setup required):</p>
+                <h3>🚀 Framework Integration Examples</h3>
+                <p><strong>EzyAPI works with any framework!</strong> See how easy it is to integrate with popular frameworks:</p>
                 
-                <div class="example-apis">
-                    <div class="api-card" onclick="loadExample('user')">
-                        <h4>🧑 Random User</h4>
-                        <p>Fetch and display user data with automatic binding</p>
+                <div style="display: grid; grid-template-columns: 1fr; gap: 24px; margin: 24px 0;">
+                    <!-- React Example -->
+                    <div style="background: linear-gradient(135deg, rgb(240 249 255) 0%, rgb(219 234 254) 100%); padding: 24px; border-radius: 12px; border: 1px solid rgb(59 130 246);">
+                        <h4 style="color: #1d4ed8; margin-bottom: 16px; display: flex; align-items: center; gap: 8px;">
+                            ⚛️ React.js Integration
+                        </h4>
+                        <div class="result-area" style="margin-top: 12px;">
+                            <pre><code>import React, { useState, useEffect } from 'react';
+import { callapi, apidata } from 'ezyapi';
+
+function UserProfile({ userId }) {
+  const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    async function fetchUser() {
+      try {
+        const userData = await apidata(callapi(`/api/users/${userId}`));
+        setUser(userData);
+      } catch (error) {
+        console.error('Failed to fetch user:', error);
+      } finally {
+        setLoading(false);
+      }
+    }
+    fetchUser();
+  }, [userId]);
+
+  if (loading) return &lt;div&gt;Loading...&lt;/div&gt;;
+  return (
+    &lt;div&gt;
+      &lt;h1&gt;{user.name}&lt;/h1&gt;
+      &lt;p&gt;Email: {user.email}&lt;/p&gt;
+    &lt;/div&gt;
+  );
+}</code></pre>
+                        </div>
                     </div>
-                    <div class="api-card" onclick="loadExample('joke')">
-                        <h4>😄 Random Joke</h4>
-                        <p>Get a random programming joke</p>
+
+                    <!-- Vue Example -->
+                    <div style="background: linear-gradient(135deg, rgb(240 253 244) 0%, rgb(220 252 231) 100%); padding: 24px; border-radius: 12px; border: 1px solid rgb(34 197 94);">
+                        <h4 style="color: #059669; margin-bottom: 16px; display: flex; align-items: center; gap: 8px;">
+                            💚 Vue.js Integration
+                        </h4>
+                        <div class="result-area" style="margin-top: 12px;">
+                            <pre><code>&lt;template&gt;
+  &lt;div&gt;
+    &lt;div v-if="loading"&gt;Loading...&lt;/div&gt;
+    &lt;div v-else-if="user"&gt;
+      &lt;h1&gt;{{ user.name }}&lt;/h1&gt;
+      &lt;p&gt;Email: {{ user.email }}&lt;/p&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/template&gt;
+
+&lt;script&gt;
+import { callapi, apidata } from 'ezyapi';
+
+export default {
+  data() {
+    return { user: null, loading: true };
+  },
+  async mounted() {
+    try {
+      this.user = await apidata(callapi('/api/current-user'));
+    } finally {
+      this.loading = false;
+    }
+  }
+};
+&lt;/script&gt;</code></pre>
+                        </div>
                     </div>
-                    <div class="api-card" onclick="loadExample('cat')">
-                        <h4>🐱 Cat Facts</h4>
-                        <p>Learn interesting facts about cats</p>
+
+                    <!-- Angular Example -->
+                    <div style="background: linear-gradient(135deg, rgb(254 242 242) 0%, rgb(254 226 226) 100%); padding: 24px; border-radius: 12px; border: 1px solid rgb(239 68 68);">
+                        <h4 style="color: #dc2626; margin-bottom: 16px; display: flex; align-items: center; gap: 8px;">
+                            🅰️ Angular Integration
+                        </h4>
+                        <div class="result-area" style="margin-top: 12px;">
+                            <pre><code>import { Component, OnInit } from '@angular/core';
+import { callapi, apidata } from 'ezyapi';
+
+@Component({
+  selector: 'app-user-profile',
+  template: `
+    &lt;div *ngIf="loading"&gt;Loading...&lt;/div&gt;
+    &lt;div *ngIf="user && !loading"&gt;
+      &lt;h1&gt;{{ user.name }}&lt;/h1&gt;
+      &lt;p&gt;Email: {{ user.email }}&lt;/p&gt;
+    &lt;/div&gt;
+  `
+})
+export class UserProfileComponent implements OnInit {
+  user: any = null;
+  loading = true;
+
+  async ngOnInit() {
+    try {
+      this.user = await apidata(callapi('/api/current-user'));
+    } finally {
+      this.loading = false;
+    }
+  }
+}</code></pre>
+                        </div>
                     </div>
-                    <div class="api-card" onclick="loadExample('quote')">
-                        <h4>💭 Inspirational Quote</h4>
-                        <p>Get motivated with random quotes</p>
+
+                    <!-- Node.js Example -->
+                    <div style="background: linear-gradient(135deg, rgb(254 249 195) 0%, rgb(254 240 138) 100%); padding: 24px; border-radius: 12px; border: 1px solid rgb(245 158 11);">
+                        <h4 style="color: #d97706; margin-bottom: 16px; display: flex; align-items: center; gap: 8px;">
+                            📡 Node.js/Express Backend
+                        </h4>
+                        <div class="result-area" style="margin-top: 12px;">
+                            <pre><code>const express = require('express');
+const { callapi, apidata } = require('ezyapi');
+
+const app = express();
+
+// Proxy API endpoint
+app.get('/api/users/:id', async (req, res) => {
+  try {
+    const userData = await apidata(
+      callapi(`https://external-api.com/users/${req.params.id}`, {
+        headers: { 'Authorization': `Bearer ${process.env.API_TOKEN}` }
+      })
+    );
+    res.json(userData);
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to fetch user data' });
+  }
+});
+
+app.listen(3000, () => console.log('Server running on port 3000'));</code></pre>
+                        </div>
                     </div>
                 </div>
-                
-                <div class="binding-demo" id="demo-result">
-                    <h4>📋 Result will appear here:</h4>
-                    <p>Name: <strong>{name}</strong></p>
-                    <p>Info: <strong>{info}</strong></p>
-                    <p>Extra: <strong>{extra}</strong></p>
-                    <p><em>Click an API card above to see the magic! ✨</em></p>
+
+                <div style="background: #f3e8ff; padding: 20px; border-radius: 10px; border: 2px solid #a855f7; margin: 24px 0;">
+                    <h4 style="color: #7c3aed; margin-bottom: 16px;">🔗 Installation for Each Framework</h4>
+                    
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 16px;">
+                        <div>
+                            <h5 style="color: #7c3aed; margin-bottom: 8px;">React/Next.js</h5>
+                            <div class="result-area" style="margin-top: 8px; padding: 12px;">
+                                <pre style="margin: 0; font-size: 12px;"><code>npm install ezyapi
+# or
+yarn add ezyapi
+
+import { autoBind } from 'ezyapi';</code></pre>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <h5 style="color: #7c3aed; margin-bottom: 8px;">Vue.js/Nuxt</h5>
+                            <div class="result-area" style="margin-top: 8px; padding: 12px;">
+                                <pre style="margin: 0; font-size: 12px;"><code>npm install ezyapi
+
+import { callapi, apidata } from 'ezyapi';</code></pre>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <h5 style="color: #7c3aed; margin-bottom: 8px;">Angular</h5>
+                            <div class="result-area" style="margin-top: 8px; padding: 12px;">
+                                <pre style="margin: 0; font-size: 12px;"><code>npm install ezyapi
+
+import { callapi, apidata } from 'ezyapi';</code></pre>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <h5 style="color: #7c3aed; margin-bottom: 8px;">Node.js/Express</h5>
+                            <div class="result-area" style="margin-top: 8px; padding: 12px;">
+                                <pre style="margin: 0; font-size: 12px;"><code>npm install ezyapi
+
+const { callapi } = require('ezyapi');</code></pre>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
 
-            <!-- Custom API Testing -->
+            <!-- Installation Guide -->
             <div class="demo-section">
-                <h3>🔧 Test Your Own API</h3>
-                <p>Enter your API details below and see how EzyAPI simplifies everything:</p>
+                <h3>📦 Complete Installation Guide</h3>
+                <p><strong>Choose your preferred installation method</strong> - EzyAPI supports all modern development environments:</p>
                 
-                <div class="api-form">
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="api-url">API URL:</label>
-                            <input type="text" id="api-url" placeholder="https://api.example.com/data" value="https://jsonplaceholder.typicode.com/users/1">
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 24px; margin: 24px 0;">
+                    <!-- NPM Installation -->
+                    <div style="background: linear-gradient(135deg, rgb(239 246 255) 0%, rgb(219 234 254) 100%); padding: 24px; border-radius: 12px; border: 1px solid rgb(147 197 253);">
+                        <h4 style="color: #1d4ed8; margin-bottom: 16px;">📦 NPM Installation</h4>
+                        <div class="result-area" style="margin-top: 12px;">
+                            <pre><code># Install with NPM
+npm install ezyapi
+
+# Install with Yarn
+yarn add ezyapi
+
+# Install specific version
+npm install ezyapi@1.0.0</code></pre>
                         </div>
-                        <div class="form-group">
-                            <label for="method">Method:</label>
-                            <select id="method">
-                                <option value="GET">GET</option>
-                                <option value="POST">POST</option>
-                                <option value="PUT">PUT</option>
-                                <option value="DELETE">DELETE</option>
-                            </select>
+                        <p style="margin-top: 12px; color: #475569; font-size: 14px;"><strong>Best for:</strong> React, Vue, Angular, Node.js projects</p>
+                    </div>
+
+                    <!-- CDN Installation -->
+                    <div style="background: linear-gradient(135deg, rgb(240 253 244) 0%, rgb(220 252 231) 100%); padding: 24px; border-radius: 12px; border: 1px solid rgb(34 197 94);">
+                        <h4 style="color: #059669; margin-bottom: 16px;">🌐 CDN Installation</h4>
+                        <div class="result-area" style="margin-top: 12px;">
+                            <pre><code>&lt;!-- Latest version --&gt;
+&lt;script src="https://cdn.jsdelivr.net/npm/ezyapi@latest/ezyapi.min.js"&gt;&lt;/script&gt;
+
+&lt;!-- Specific version --&gt;
+&lt;script src="https://cdn.jsdelivr.net/npm/ezyapi@1.0.0/ezyapi.min.js"&gt;&lt;/script&gt;
+
+&lt;!-- Alternative CDN --&gt;
+&lt;script src="https://unpkg.com/ezyapi@latest/ezyapi.min.js"&gt;&lt;/script&gt;</code></pre>
+                        </div>
+                        <p style="margin-top: 12px; color: #475569; font-size: 14px;"><strong>Best for:</strong> Static websites, prototypes, quick testing</p>
+                    </div>
+
+                    <!-- Download Installation -->
+                    <div style="background: linear-gradient(135deg, rgb(254 242 242) 0%, rgb(254 226 226) 100%); padding: 24px; border-radius: 12px; border: 1px solid rgb(248 113 113);">
+                        <h4 style="color: #dc2626; margin-bottom: 16px;">💾 Direct Download</h4>
+                        <div class="result-area" style="margin-top: 12px;">
+                            <pre><code>&lt;!-- Download ezyapi.js and include --&gt;
+&lt;script src="./js/ezyapi.js"&gt;&lt;/script&gt;
+
+&lt;!-- Or use minified version --&gt;
+&lt;script src="./js/ezyapi.min.js"&gt;&lt;/script&gt;</code></pre>
+                        </div>
+                        <p style="margin-top: 12px; color: #475569; font-size: 14px;"><strong>Best for:</strong> Offline development, custom hosting</p>
+                    </div>
+                </div>
+
+                <div style="background: #fff3cd; padding: 20px; border-radius: 10px; border: 2px solid #ffc107; margin: 24px 0;">
+                    <h4 style="color: #856404; margin-bottom: 16px;">⚡ Quick Setup Examples</h4>
+                    
+                    <div style="margin: 16px 0;">
+                        <h5 style="color: #856404;">1. HTML + CDN (Fastest Setup):</h5>
+                        <div class="result-area" style="margin-top: 8px;">
+                            <pre><code>&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+    &lt;title&gt;EzyAPI Demo&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;div id="user-info"&gt;
+        &lt;h1&gt;{name}&lt;/h1&gt;
+        &lt;p&gt;Email: {email}&lt;/p&gt;
+    &lt;/div&gt;
+
+    &lt;script src="https://cdn.jsdelivr.net/npm/ezyapi@latest/ezyapi.min.js"&gt;&lt;/script&gt;
+    &lt;script&gt;
+        autoBind('/api/user', document.getElementById('user-info'));
+    &lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
                         </div>
                     </div>
                     
-                    <div class="form-group">
-                        <label for="headers">Headers (JSON format, optional):</label>
-                        <textarea id="headers" rows="3" placeholder='{"Authorization": "Bearer your-token", "Content-Type": "application/json"}'></textarea>
+                    <div style="margin: 16px 0;">
+                        <h5 style="color: #856404;">2. React Project Setup:</h5>
+                        <div class="result-area" style="margin-top: 8px;">
+                            <pre><code># Install EzyAPI
+npm install ezyapi
+
+# In your component
+import { callapi, apidata } from 'ezyapi';
+
+function App() {
+  const [data, setData] = useState(null);
+  
+  useEffect(() => {
+    apidata(callapi('/api/data')).then(setData);
+  }, []);
+  
+  return &lt;div&gt;{data?.message}&lt;/div&gt;;
+}</code></pre>
+                        </div>
                     </div>
                     
-                    <div class="form-group" id="body-group" style="display: none;">
-                        <label for="body">Request Body (JSON):</label>
-                        <textarea id="body" rows="3" placeholder='{"key": "value"}'></textarea>
+                    <div style="margin: 16px 0;">
+                        <h5 style="color: #856404;">3. Node.js Server Setup:</h5>
+                        <div class="result-area" style="margin-top: 8px;">
+                            <pre><code># Install EzyAPI
+npm install ezyapi
+
+# In your server
+const { callapi, apidata } = require('ezyapi');
+
+app.get('/api/proxy/:id', async (req, res) => {
+  const data = await apidata(callapi(`/external-api/${req.params.id}`));
+  res.json(data);
+});</code></pre>
+                        </div>
                     </div>
-                    
-                    <button onclick="testCustomAPI()">🚀 Test API with EzyAPI</button>
-                </div>
-                
-                <div class="result-area" id="custom-result">
-                    <h4>📊 API Response:</h4>
-                    <p>Your API response will appear here...</p>
-                </div>
-                
-                <div class="binding-demo" id="custom-binding">
-                    <h4>🎯 Data Binding Example:</h4>
-                    <p>User: <strong>{name}</strong></p>
-                    <p>Email: <strong>{email}</strong></p>
-                    <p>Company: <strong>{company.name}</strong></p>
-                    <p>Website: <strong>{website}</strong></p>
-                    <p><em>Test an API to see automatic data binding in action!</em></p>
                 </div>
             </div>
 
             <!-- How Easy Steps -->
             <div class="demo-section">
-               
-             
                 
                 <div style="background: #e8f4fd; padding: 20px; border-radius: 10px; margin: 20px 0;">
                     <h4>🔥 Available Placeholder Patterns:</h4>
@@ -545,23 +860,121 @@
                 </div>
             </div>
 
+            <!-- Security & Production Section -->
+            <div class="demo-section">
+                <h3>🔒 Production Security & Best Practices</h3>
+                <p><strong>EzyAPI is production-ready</strong> with built-in security features. Here's what makes it enterprise-grade:</p>
+                
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 24px; margin: 24px 0;">
+                    <div style="background: linear-gradient(135deg, rgb(239 246 255) 0%, rgb(219 234 254) 100%); padding: 24px; border-radius: 12px; border: 1px solid rgb(147 197 253);">
+                        <h4 style="color: #1d4ed8; margin-bottom: 16px;">🛡️ Built-in Security Features</h4>
+                        <ul style="line-height: 1.8; color: #475569;">
+                            <li><strong>XSS Prevention:</strong> Only modifies text nodes, avoiding script injection</li>
+                            <li><strong>Input Validation:</strong> Strict regex validation for placeholders</li>
+                            <li><strong>Safe Data Binding:</strong> Automatic sanitization of undefined/null values</li>
+                            <li><strong>No eval():</strong> No dangerous dynamic code execution</li>
+                            <li><strong>CSP Compatible:</strong> Works with strict Content Security Policies</li>
+                        </ul>
+                    </div>
+                    
+                    <div style="background: linear-gradient(135deg, rgb(240 253 244) 0%, rgb(220 252 231) 100%); padding: 24px; border-radius: 12px; border: 1px solid rgb(34 197 94);">
+                        <h4 style="color: #059669; margin-bottom: 16px;">🏭 Enterprise Ready</h4>
+                        <ul style="line-height: 1.8; color: #475569;">
+                            <li><strong>Zero Dependencies:</strong> No third-party vulnerabilities</li>
+                            <li><strong>Lightweight:</strong> &lt;5KB minified, minimal attack surface</li>
+                            <li><strong>Error Boundaries:</strong> Graceful degradation on failures</li>
+                            <li><strong>Timeout Protection:</strong> Built-in request timeouts (10s default)</li>
+                            <li><strong>Professional Support:</strong> Enterprise support via Webdenn</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div style="background: #fff3cd; padding: 20px; border-radius: 10px; border: 2px solid #ffc107; margin: 24px 0;">
+                    <h4 style="color: #856404; margin-bottom: 16px;">🔧 Production Implementation Tips</h4>
+                    
+                    <div style="margin: 16px 0;">
+                        <h5 style="color: #856404;">1. Server-Side Security (Always Required):</h5>
+                        <div class="result-area" style="margin-top: 8px;">
+                            <pre><code>// Backend security essentials
+app.use(helmet()); // Security headers
+app.use(cors({ origin: 'your-domain.com' })); // Restrict CORS
+app.use(rateLimit({ windowMs: 15 * 60 * 1000, max: 100 })); // Rate limiting
+
+// Always validate/sanitize data on backend
+router.post('/api/users', validateInput, sanitizeData, (req, res) => {
+    // Your secure API logic
+});</code></pre>
+                        </div>
+                    </div>
+                    
+                    <div style="margin: 16px 0;">
+                        <h5 style="color: #856404;">2. Secure API Calls:</h5>
+                        <div class="result-area" style="margin-top: 8px;">
+                            <pre><code>// Use HTTPS and proper authentication
+const data = await callapi('https://api.yourdomain.com/users', {
+    headers: {
+        'Authorization': 'Bearer ' + secureToken,
+        'X-CSRF-Token': csrfToken,
+        'Content-Type': 'application/json'
+    }
+});</code></pre>
+                        </div>
+                    </div>
+                    
+                    <div style="margin: 16px 0;">
+                        <h5 style="color: #856404;">3. Content Security Policy:</h5>
+                        <div class="result-area" style="margin-top: 8px;">
+                            <pre><code>&lt;meta http-equiv="Content-Security-Policy" 
+      content="default-src 'self'; 
+               connect-src 'self' https://api.yourdomain.com;
+               script-src 'self' 'unsafe-inline';
+               style-src 'self' 'unsafe-inline' fonts.googleapis.com;"&gt;</code></pre>
+                        </div>
+                    </div>
+                    
+                    <div style="margin: 16px 0;">
+                        <h5 style="color: #856404;">4. Input Validation (Recommended):</h5>
+                        <div class="result-area" style="margin-top: 8px;">
+                            <pre><code>// Optional: Additional client-side validation
+function validateApiResponse(data) {
+    return {
+        name: sanitizeString(data.name),
+        email: validateEmail(data.email),
+        id: parseInt(data.id) || 0
+        // Add your validation logic
+    };
+}
+
+const rawData = await apidata(callapi('/api/user'));
+const safeData = validateApiResponse(rawData);
+bindData(safeData);</code></pre>
+                        </div>
+                    </div>
+                </div>
+                
+                <div style="background: linear-gradient(135deg, rgb(254 242 242) 0%, rgb(254 226 226) 100%); padding: 20px; border-radius: 10px; border: 1px solid rgb(248 113 113);">
+                    <h4 style="color: #dc2626; margin-bottom: 12px;">⚠️ Security Reminder</h4>
+                    <p style="color: #7f1d1d; line-height: 1.6;"><strong>Client-side security is just one layer!</strong> EzyAPI provides secure data binding, but always implement proper server-side validation, authentication, and authorization. Never trust client-side data - validate everything on your backend.</p>
+                </div>
+            </div>
+
             <!-- Support Section -->
             <div class="demo-section" style="text-align: center; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white;">
                 <h3>❤️ Love EzyAPI? Support the Project!</h3>
                 <p style="margin: 15px 0; font-size: 1.1em;">Help us make APIs even easier for everyone!</p>
                 
                 <div class="support-buttons" style="display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; margin-top: 32px;">
-                    <button onclick="window.open('https://github.com/webdenn/ezyapi', '_blank')" 
+                    <button onclick="window.open('https://github.com/nishant5harma/ezyapi', '_blank')" 
                             style="background: #1f2937; border: 1px solid rgba(255,255,255,0.2); display: flex; align-items: center; gap: 8px; backdrop-filter: blur(10px);">
                         <span>⭐</span> Star on GitHub
                     </button>
                     
-                    <button onclick="window.open('https://github.com/webdenn/ezyapi/fork', '_blank')" 
+                    <button onclick="window.open('https://github.com/nishant5harma/ezyapi/fork', '_blank')" 
                             style="background: var(--success-color); border: 1px solid rgba(255,255,255,0.2); display: flex; align-items: center; gap: 8px;">
                         <span>🔄</span> Fork & Contribute
                     </button>
                     
-                    <button onclick="window.open('https://github.com/webdenn/ezyapi/issues', '_blank')" 
+                    <button onclick="window.open('https://github.com/nishant5harma/ezyapi/issues', '_blank')" 
                             style="background: var(--accent-color); border: 1px solid rgba(255,255,255,0.2); display: flex; align-items: center; gap: 8px;">
                         <span>🐛</span> Report Issues
                     </button>
@@ -619,9 +1032,9 @@
             quote: {
                 url: 'https://api.quotable.io/random',
                 transform: (data) => ({
-                    name: data.author,
-                    info: data.content,
-                    extra: `Tags: ${data.tags.join(', ')}`
+                    name: data.author || 'Unknown Author',
+                    info: data.content || 'No quote available',
+                    extra: `Tags: ${data.tags && Array.isArray(data.tags) ? data.tags.join(', ') : 'No tags'}`
                 })
             }
         };
@@ -646,7 +1059,16 @@
                 }, 500);
                 
             } catch (error) {
-                resultDiv.innerHTML = `<p class="error">❌ Error: ${error.message}</p>`;
+                console.error('API Demo Error:', error);
+                resultDiv.innerHTML = `
+                    <p class="error">❌ Error: ${error.message}</p>
+                    <p style="color: #666; font-size: 14px; margin-top: 8px;">
+                        This might be due to:
+                        <br>• API response format changes
+                        <br>• Network connectivity issues
+                        <br>• API service temporarily unavailable
+                    </p>
+                `;
             }
         }
 
