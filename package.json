@@ -1,0 +1,65 @@
+{
+  "name": "ezyapi",
+  "version": "1.0.1",
+  "description": "Making APIs Easy - A lightweight, zero-dependency JavaScript library that simplifies API calls and DOM data binding",
+  "main": "ezyapi.js",
+  "module": "ezyapi.esm.js",
+  "types": "ezyapi.d.ts",
+  "files": [
+    "ezyapi.js",
+    "ezyapi.esm.js",
+    "ezyapi.min.js",
+    "ezyapi.d.ts",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "build": "npm run build:esm && npm run build:min && npm run build:types",
+    "build:esm": "node scripts/build-esm.js",
+    "build:min": "node scripts/build-min.js",
+    "build:types": "node scripts/build-types.js",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "prepublishOnly": "npm run build"
+  },
+  "keywords": [
+    "api",
+    "ajax",
+    "fetch",
+    "dom",
+    "data-binding",
+    "javascript",
+    "frontend",
+    "web",
+    "easy",
+    "lightweight",
+    "zero-dependencies",
+    "vanilla-js",
+    "rest-api",
+    "json",
+    "http",
+    "client",
+    "browser"
+  ],
+  "author": "EzyAPI Contributors",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nishant5harma/ezyapi.git"
+  },
+  "bugs": {
+    "url": "https://github.com/nishant5harma/ezyapi/issues"
+  },
+  "homepage": "https://github.com/nishant5harma/ezyapi#readme",
+  "engines": {
+    "node": ">=12.0.0"
+  },
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not dead",
+    "not ie <= 11"
+  ],
+  "dependencies": {
+    "ezyapi": "^1.0.0"
+  }
+}

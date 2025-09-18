@@ -1,0 +1,1257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EzyAPI Playground - Test APIs Easily</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #2563eb;
+            --primary-dark: #1d4ed8;
+            --secondary-color: #64748b;
+            --accent-color: #0ea5e9;
+            --success-color: #059669;
+            --warning-color: #d97706;
+            --error-color: #dc2626;
+            --background: #f8fafc;
+            --surface: #ffffff;
+            --border: #e2e8f0;
+            --border-light: #f1f5f9;
+            --text-primary: #0f172a;
+            --text-secondary: #475569;
+            --text-muted: #64748b;
+            --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+            --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+            --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+        }
+
+        * { 
+            margin: 0; 
+            padding: 0; 
+            box-sizing: border-box; 
+        }
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+            background: var(--background);
+            min-height: 100vh;
+            padding: 24px;
+            color: var(--text-primary);
+            line-height: 1.6;
+            font-weight: 400;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: var(--surface);
+            border-radius: 16px;
+            box-shadow: var(--shadow-xl);
+            overflow: hidden;
+            border: 1px solid var(--border-light);
+        }
+        
+        .header {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
+            color: white;
+            padding: 48px 32px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse"><path d="M 10 0 L 0 0 0 10" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="1"/></pattern></defs><rect width="100" height="100" fill="url(%23grid)"/></svg>');
+            opacity: 0.3;
+        }
+        
+        .header h1 { 
+            font-size: 3rem; 
+            margin-bottom: 12px; 
+            font-weight: 700;
+            letter-spacing: -0.025em;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .header p { 
+            font-size: 1.25rem; 
+            opacity: 0.9;
+            font-weight: 400;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .content { 
+            padding: 40px 32px; 
+        }
+        
+        .demo-section {
+            background: var(--surface);
+            border-radius: 12px;
+            padding: 32px;
+            margin-bottom: 32px;
+            border: 1px solid var(--border);
+            box-shadow: var(--shadow-sm);
+            transition: all 0.2s ease;
+        }
+        
+        .demo-section:hover {
+            box-shadow: var(--shadow-md);
+        }
+        
+        .demo-section h3 {
+            color: var(--text-primary);
+            margin-bottom: 16px;
+            font-size: 1.5rem;
+            font-weight: 600;
+            letter-spacing: -0.025em;
+        }
+        
+        .demo-section p {
+            color: var(--text-secondary);
+            margin-bottom: 24px;
+            font-size: 1rem;
+        }
+        
+        .api-form {
+            display: grid;
+            gap: 20px;
+            margin-bottom: 24px;
+        }
+        
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 140px;
+            gap: 16px;
+        }
+        
+        label {
+            font-weight: 500;
+            color: var(--text-primary);
+            font-size: 0.875rem;
+            letter-spacing: 0.025em;
+        }
+        
+        input, select, textarea {
+            padding: 12px 16px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            font-size: 14px;
+            font-family: inherit;
+            transition: all 0.2s ease;
+            background: var(--surface);
+            color: var(--text-primary);
+        }
+        
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgb(37 99 235 / 0.1);
+        }
+        
+        button {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            font-family: inherit;
+            transition: all 0.2s ease;
+            box-shadow: var(--shadow-sm);
+        }
+        
+        button:hover { 
+            transform: translateY(-1px);
+            box-shadow: var(--shadow-md);
+        }
+        
+        button:active { 
+            transform: translateY(0);
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .result-area {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            min-height: 200px;
+            padding: 24px;
+            margin-top: 24px;
+            font-family: 'JetBrains Mono', 'Fira Code', 'Consolas', monospace;
+            font-size: 13px;
+            line-height: 1.5;
+        }
+        
+        .binding-demo {
+            background: linear-gradient(135deg, rgb(239 246 255) 0%, rgb(219 234 254) 100%);
+            border: 1px solid rgb(147 197 253);
+            border-radius: 8px;
+            padding: 24px;
+            margin-top: 20px;
+        }
+        
+        .example-apis {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin-top: 24px;
+        }
+        
+        .api-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 24px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .api-card:hover {
+            border-color: var(--primary-color);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+        
+        .api-card h4 { 
+            color: var(--text-primary); 
+            margin-bottom: 8px;
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+        
+        .api-card p { 
+            color: var(--text-secondary); 
+            font-size: 14px;
+            line-height: 1.5;
+        }
+        
+        .loading {
+            color: var(--accent-color);
+            font-style: italic;
+        }
+        
+        .error { 
+            color: var(--error-color);
+            font-weight: 500;
+        }
+        
+        .success { 
+            color: var(--success-color);
+            font-weight: 500;
+        }
+        
+        code {
+            background: var(--border-light);
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-family: 'JetBrains Mono', 'Fira Code', 'Consolas', monospace;
+            font-size: 0.875rem;
+            color: var(--text-primary);
+            border: 1px solid var(--border);
+        }
+        
+        pre {
+            background: var(--border-light);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 20px;
+            overflow-x: auto;
+            font-family: 'JetBrains Mono', 'Fira Code', 'Consolas', monospace;
+            font-size: 13px;
+            line-height: 1.5;
+        }
+        
+        pre code {
+            background: none;
+            padding: 0;
+            border: none;
+            font-size: inherit;
+        }
+
+        /* Professional spacing and typography improvements */
+        h4 {
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 12px;
+            font-size: 1.125rem;
+        }
+
+        h5 {
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 8px;
+            font-size: 1rem;
+        }
+
+        ul, ol {
+            padding-left: 24px;
+        }
+
+        li {
+            margin-bottom: 6px;
+            color: var(--text-secondary);
+        }
+
+        strong {
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        /* Enhanced button styles for support section */
+        .support-buttons button {
+            font-weight: 500;
+            letter-spacing: 0.025em;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🚀 EzyAPI Playground</h1>
+            <p>Test how easy APIs can be with EzyAPI!</p>
+        </div>
+        
+
+
+
+            <!-- Quick Demo Section -->
+            <div class="demo-section">
+                <h3>🎯 Live Demo - Try These Free APIs</h3>
+                <p>Ready to see it in action? Click any card below to test EzyAPI with real APIs (no setup required):</p>
+                
+                <div class="example-apis">
+                    <div class="api-card" onclick="loadExample('user')">
+                        <h4>🧑 Random User</h4>
+                        <p>Fetch and display user data with automatic binding</p>
+                    </div>
+                    <div class="api-card" onclick="loadExample('joke')">
+                        <h4>😄 Random Joke</h4>
+                        <p>Get a random programming joke</p>
+                    </div>
+                    <div class="api-card" onclick="loadExample('cat')">
+                        <h4>🐱 Cat Facts</h4>
+                        <p>Learn interesting facts about cats</p>
+                    </div>
+                    <div class="api-card" onclick="loadExample('quote')">
+                        <h4>💭 Inspirational Quote</h4>
+                        <p>Get motivated with random quotes</p>
+                    </div>
+                </div>
+                
+                <div class="binding-demo" id="demo-result">
+                    <h4>📋 Result will appear here:</h4>
+                    <p>Name: <strong>{name}</strong></p>
+                    <p>Info: <strong>{info}</strong></p>
+                    <p>Extra: <strong>{extra}</strong></p>
+                    <p><em>Click an API card above to see the magic! ✨</em></p>
+                </div>
+            </div>
+
+            <!-- Custom API Testing -->
+            <div class="demo-section">
+                <h3>🔧 Test Your Own API</h3>
+                <p>Enter your API details below and see how EzyAPI simplifies everything:</p>
+                
+                <div class="api-form">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="api-url">API URL:</label>
+                            <input type="text" id="api-url" placeholder="https://api.example.com/data" value="https://jsonplaceholder.typicode.com/users/1">
+                        </div>
+                        <div class="form-group">
+                            <label for="method">Method:</label>
+                            <select id="method">
+                                <option value="GET">GET</option>
+                                <option value="POST">POST</option>
+                                <option value="PUT">PUT</option>
+                                <option value="DELETE">DELETE</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="headers">Headers (JSON format, optional):</label>
+                        <textarea id="headers" rows="3" placeholder='{"Authorization": "Bearer your-token", "Content-Type": "application/json"}'></textarea>
+                    </div>
+                    
+                    <div class="form-group" id="body-group" style="display: none;">
+                        <label for="body">Request Body (JSON):</label>
+                        <textarea id="body" rows="3" placeholder='{"key": "value"}'></textarea>
+                    </div>
+                    
+                    <button onclick="testCustomAPI()">🚀 Test API with EzyAPI</button>
+                </div>
+                
+                <div class="result-area" id="custom-result">
+                    <h4>📊 API Response:</h4>
+                    <p>Your API response will appear here...</p>
+                </div>
+                
+                <div class="binding-demo" id="custom-binding">
+                    <h4>🎯 Data Binding Example:</h4>
+                    <p>User: <strong>{name}</strong></p>
+                    <p>Email: <strong>{email}</strong></p>
+                    <p>Company: <strong>{company.name}</strong></p>
+                    <p>Website: <strong>{website}</strong></p>
+                    <p><em>Test an API to see automatic data binding in action!</em></p>
+                </div>
+            </div>
+
+
+
+
+
+
+
+
+
+
+        <div class="content">
+            <!-- Beginner Tutorial Section -->
+            <div class="demo-section">
+                <h3>👨‍🎓 Complete Beginner Tutorial</h3>
+                <p><strong>New to APIs?</strong> Follow this step-by-step guide to understand how EzyAPI makes everything simple!</p>
+                
+                <div style="background: #f8f9fa; border-radius: 10px; padding: 25px; margin: 20px 0; border-left: 5px solid #28a745;">
+                    <h4>📖 Step-by-Step Tutorial:</h4>
+                    
+                    <div style="margin: 20px 0;">
+                        <h5 style="color: #28a745; margin-bottom: 10px;">🏗️ Step 1: Create Your HTML Structure</h5>
+                        <p>First, create your HTML with special placeholders where you want data to appear:</p>
+                        <div class="result-area">
+                            <pre><code>&lt;!-- inside body --&gt;
+&lt;div id="profileCard"&gt;
+  &lt;img id="profilePic" src="{picture}" alt="Profile" /&gt;
+  &lt;h2 id="profileName"&gt;{name}&lt;/h2&gt;
+  &lt;p id="profileEmail"&gt;{email}&lt;/p&gt;
+  &lt;p id="profileCreated"&gt;Joined: {created_at}&lt;/p&gt;
+  &lt;p id="given_name"&gt;{given_name}&lt;/p&gt;
+&lt;/div&gt;</code></pre>
+                        </div>
+                        <p><strong>Notice:</strong> The curly braces <code>{}</code> are placeholders that will be automatically replaced with real data!</p>
+                    </div>
+                    
+                    <div style="margin: 20px 0;">
+                        <h5 style="color: #667eea; margin-bottom: 10px;">📚 Step 2: Include Required Scripts</h5>
+                        <p>Add these scripts to your HTML (Axios is optional but recommended):</p>
+                        <div class="result-area">
+                            <pre><code>&lt;!-- Optional: Axios for better API handling --&gt;
+&lt;script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"&gt;&lt;/script&gt;
+
+&lt;!-- Required: EzyAPI library --&gt;
+&lt;script src="ezyapi.js"&gt;&lt;/script&gt;</code></pre>
+                        </div>
+                    </div>
+                    
+                    <div style="margin: 20px 0;">
+                        <h5 style="color: #dc3545; margin-bottom: 10px;">🚀 Step 3: Write Your JavaScript</h5>
+                        <p>Now the magic happens with just a few lines of code:</p>
+                        <div class="result-area">
+                            <pre><code>&lt;script&gt;
+  // Method 1: One line does everything! (Recommended for beginners)
+  autoBind("../../api/user-profile.php");
+  
+  // Method 2: Step by step (for learning/debugging)
+  var apiCall = callapi("../../api/user-profile.php");
+  console.log(apidata(apiCall)); // See the data in console
+  
+  // Method 3: Advanced usage with specific target
+  autoBind("../../api/user-profile.php", document.getElementById('profileCard'));
+&lt;/script&gt;</code></pre>
+                        </div>
+                    </div>
+                    
+                    <div style="background: #e8f4fd; padding: 15px; border-radius: 8px; margin: 20px 0;">
+                        <h5 style="color: #0066cc; margin-bottom: 10px;">🎯 What Happens:</h5>
+                        <ol style="line-height: 1.8; margin-left: 20px;">
+                            <li><strong>API Call:</strong> EzyAPI fetches data from your API endpoint</li>
+                            <li><strong>Data Processing:</strong> Response is automatically processed and extracted</li>
+                            <li><strong>DOM Binding:</strong> Placeholders like <code>{name}</code> are replaced with actual values</li>
+                            <li><strong>Error Handling:</strong> Any errors are caught and handled gracefully</li>
+                        </ol>
+                    </div>
+                    
+                    <div style="background: #fff3cd; padding: 15px; border-radius: 8px; margin: 20px 0; border: 2px solid #ffc107;">
+                        <h5 style="color: #856404; margin-bottom: 10px;">💡 Beginner Tips:</h5>
+                        <ul style="line-height: 1.8; margin-left: 20px;">
+                            <li><strong>Placeholder Names:</strong> Must match your API response keys exactly</li>
+                            <li><strong>Nested Data:</strong> Use dots like <code>{user.address.city}</code> for nested objects</li>
+                            <li><strong>Missing Data:</strong> If API doesn't have a field, placeholder becomes empty (no errors!)</li>
+                            <li><strong>Console Debug:</strong> Use <code>console.log(apidata(callapi('url')))</code> to see your API response</li>
+                            <li><strong>Local Testing:</strong> Make sure your API supports CORS for browser testing</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div style="background: linear-gradient(135deg, #28a745 0%, #20c997 100%); color: white; padding: 20px; border-radius: 10px; text-align: center;">
+                    <h4>🎉 Complete Example Ready to Use!</h4>
+                    <button onclick="showCompleteExample()" style="background: white; color: #28a745; margin-top: 10px;">
+                        📄 View Complete HTML File Example
+                    </button>
+                </div>
+            </div>
+
+            <!-- Framework Examples -->
+            <div class="demo-section">
+                <h3>🚀 Framework Integration Examples</h3>
+                <p><strong>EzyAPI works with any framework!</strong> See how easy it is to integrate with popular frameworks:</p>
+                
+                <div style="display: grid; grid-template-columns: 1fr; gap: 24px; margin: 24px 0;">
+                    <!-- React Example -->
+                    <div style="background: linear-gradient(135deg, rgb(240 249 255) 0%, rgb(219 234 254) 100%); padding: 24px; border-radius: 12px; border: 1px solid rgb(59 130 246);">
+                        <h4 style="color: #1d4ed8; margin-bottom: 16px; display: flex; align-items: center; gap: 8px;">
+                            ⚛️ React.js Integration
+                        </h4>
+                        <div class="result-area" style="margin-top: 12px;">
+                            <pre><code>import React, { useState, useEffect } from 'react';
+import { callapi, apidata } from 'ezyapi';
+
+function UserProfile({ userId }) {
+  const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    async function fetchUser() {
+      try {
+        const userData = await apidata(callapi(`/api/users/${userId}`));
+        setUser(userData);
+      } catch (error) {
+        console.error('Failed to fetch user:', error);
+      } finally {
+        setLoading(false);
+      }
+    }
+    fetchUser();
+  }, [userId]);
+
+  if (loading) return &lt;div&gt;Loading...&lt;/div&gt;;
+  return (
+    &lt;div&gt;
+      &lt;h1&gt;{user.name}&lt;/h1&gt;
+      &lt;p&gt;Email: {user.email}&lt;/p&gt;
+    &lt;/div&gt;
+  );
+}</code></pre>
+                        </div>
+                    </div>
+
+                    <!-- Vue Example -->
+                    <div style="background: linear-gradient(135deg, rgb(240 253 244) 0%, rgb(220 252 231) 100%); padding: 24px; border-radius: 12px; border: 1px solid rgb(34 197 94);">
+                        <h4 style="color: #059669; margin-bottom: 16px; display: flex; align-items: center; gap: 8px;">
+                            💚 Vue.js Integration
+                        </h4>
+                        <div class="result-area" style="margin-top: 12px;">
+                            <pre><code>&lt;template&gt;
+  &lt;div&gt;
+    &lt;div v-if="loading"&gt;Loading...&lt;/div&gt;
+    &lt;div v-else-if="user"&gt;
+      &lt;h1&gt;{{ user.name }}&lt;/h1&gt;
+      &lt;p&gt;Email: {{ user.email }}&lt;/p&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/template&gt;
+
+&lt;script&gt;
+import { callapi, apidata } from 'ezyapi';
+
+export default {
+  data() {
+    return { user: null, loading: true };
+  },
+  async mounted() {
+    try {
+      this.user = await apidata(callapi('/api/current-user'));
+    } finally {
+      this.loading = false;
+    }
+  }
+};
+&lt;/script&gt;</code></pre>
+                        </div>
+                    </div>
+
+                    <!-- Angular Example -->
+                    <div style="background: linear-gradient(135deg, rgb(254 242 242) 0%, rgb(254 226 226) 100%); padding: 24px; border-radius: 12px; border: 1px solid rgb(239 68 68);">
+                        <h4 style="color: #dc2626; margin-bottom: 16px; display: flex; align-items: center; gap: 8px;">
+                            🅰️ Angular Integration
+                        </h4>
+                        <div class="result-area" style="margin-top: 12px;">
+                            <pre><code>import { Component, OnInit } from '@angular/core';
+import { callapi, apidata } from 'ezyapi';
+
+@Component({
+  selector: 'app-user-profile',
+  template: `
+    &lt;div *ngIf="loading"&gt;Loading...&lt;/div&gt;
+    &lt;div *ngIf="user && !loading"&gt;
+      &lt;h1&gt;{{ user.name }}&lt;/h1&gt;
+      &lt;p&gt;Email: {{ user.email }}&lt;/p&gt;
+    &lt;/div&gt;
+  `
+})
+export class UserProfileComponent implements OnInit {
+  user: any = null;
+  loading = true;
+
+  async ngOnInit() {
+    try {
+      this.user = await apidata(callapi('/api/current-user'));
+    } finally {
+      this.loading = false;
+    }
+  }
+}</code></pre>
+                        </div>
+                    </div>
+
+                    <!-- Node.js Example -->
+                    <div style="background: linear-gradient(135deg, rgb(254 249 195) 0%, rgb(254 240 138) 100%); padding: 24px; border-radius: 12px; border: 1px solid rgb(245 158 11);">
+                        <h4 style="color: #d97706; margin-bottom: 16px; display: flex; align-items: center; gap: 8px;">
+                            📡 Node.js/Express Backend
+                        </h4>
+                        <div class="result-area" style="margin-top: 12px;">
+                            <pre><code>const express = require('express');
+const { callapi, apidata } = require('ezyapi');
+
+const app = express();
+
+// Proxy API endpoint
+app.get('/api/users/:id', async (req, res) => {
+  try {
+    const userData = await apidata(
+      callapi(`https://external-api.com/users/${req.params.id}`, {
+        headers: { 'Authorization': `Bearer ${process.env.API_TOKEN}` }
+      })
+    );
+    res.json(userData);
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to fetch user data' });
+  }
+});
+
+app.listen(3000, () => console.log('Server running on port 3000'));</code></pre>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="background: #f3e8ff; padding: 20px; border-radius: 10px; border: 2px solid #a855f7; margin: 24px 0;">
+                    <h4 style="color: #7c3aed; margin-bottom: 16px;">🔗 Installation for Each Framework</h4>
+                    
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 16px;">
+                        <div>
+                            <h5 style="color: #7c3aed; margin-bottom: 8px;">React/Next.js</h5>
+                            <div class="result-area" style="margin-top: 8px; padding: 12px;">
+                                <pre style="margin: 0; font-size: 12px;"><code>npm install ezyapi
+# or
+yarn add ezyapi
+
+import { autoBind } from 'ezyapi';</code></pre>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <h5 style="color: #7c3aed; margin-bottom: 8px;">Vue.js/Nuxt</h5>
+                            <div class="result-area" style="margin-top: 8px; padding: 12px;">
+                                <pre style="margin: 0; font-size: 12px;"><code>npm install ezyapi
+
+import { callapi, apidata } from 'ezyapi';</code></pre>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <h5 style="color: #7c3aed; margin-bottom: 8px;">Angular</h5>
+                            <div class="result-area" style="margin-top: 8px; padding: 12px;">
+                                <pre style="margin: 0; font-size: 12px;"><code>npm install ezyapi
+
+import { callapi, apidata } from 'ezyapi';</code></pre>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <h5 style="color: #7c3aed; margin-bottom: 8px;">Node.js/Express</h5>
+                            <div class="result-area" style="margin-top: 8px; padding: 12px;">
+                                <pre style="margin: 0; font-size: 12px;"><code>npm install ezyapi
+
+const { callapi } = require('ezyapi');</code></pre>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Installation Guide -->
+            <div class="demo-section">
+                <h3>📦 Complete Installation Guide</h3>
+                <p><strong>Choose your preferred installation method</strong> - EzyAPI supports all modern development environments:</p>
+                
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 24px; margin: 24px 0;">
+                    <!-- NPM Installation -->
+                    <div style="background: linear-gradient(135deg, rgb(239 246 255) 0%, rgb(219 234 254) 100%); padding: 24px; border-radius: 12px; border: 1px solid rgb(147 197 253);">
+                        <h4 style="color: #1d4ed8; margin-bottom: 16px;">📦 NPM Installation</h4>
+                        <div class="result-area" style="margin-top: 12px;">
+                            <pre><code># Install with NPM
+npm install ezyapi
+
+# Install with Yarn
+yarn add ezyapi
+
+# Install specific version
+npm install ezyapi@1.0.0</code></pre>
+                        </div>
+                        <p style="margin-top: 12px; color: #475569; font-size: 14px;"><strong>Best for:</strong> React, Vue, Angular, Node.js projects</p>
+                    </div>
+
+                    <!-- CDN Installation -->
+                    <div style="background: linear-gradient(135deg, rgb(240 253 244) 0%, rgb(220 252 231) 100%); padding: 24px; border-radius: 12px; border: 1px solid rgb(34 197 94);">
+                        <h4 style="color: #059669; margin-bottom: 16px;">🌐 CDN Installation</h4>
+                        <div class="result-area" style="margin-top: 12px;">
+                            <pre><code>&lt;!-- Latest version --&gt;
+&lt;script src="https://cdn.jsdelivr.net/npm/ezyapi@latest/ezyapi.min.js"&gt;&lt;/script&gt;
+
+&lt;!-- Specific version --&gt;
+&lt;script src="https://cdn.jsdelivr.net/npm/ezyapi@1.0.0/ezyapi.min.js"&gt;&lt;/script&gt;
+
+&lt;!-- Alternative CDN --&gt;
+&lt;script src="https://unpkg.com/ezyapi@latest/ezyapi.min.js"&gt;&lt;/script&gt;</code></pre>
+                        </div>
+                        <p style="margin-top: 12px; color: #475569; font-size: 14px;"><strong>Best for:</strong> Static websites, prototypes, quick testing</p>
+                    </div>
+
+                    <!-- Download Installation -->
+                    <div style="background: linear-gradient(135deg, rgb(254 242 242) 0%, rgb(254 226 226) 100%); padding: 24px; border-radius: 12px; border: 1px solid rgb(248 113 113);">
+                        <h4 style="color: #dc2626; margin-bottom: 16px;">💾 Direct Download</h4>
+                        <div class="result-area" style="margin-top: 12px;">
+                            <pre><code>&lt;!-- Download ezyapi.js and include --&gt;
+&lt;script src="./js/ezyapi.js"&gt;&lt;/script&gt;
+
+&lt;!-- Or use minified version --&gt;
+&lt;script src="./js/ezyapi.min.js"&gt;&lt;/script&gt;</code></pre>
+                        </div>
+                        <p style="margin-top: 12px; color: #475569; font-size: 14px;"><strong>Best for:</strong> Offline development, custom hosting</p>
+                    </div>
+                </div>
+
+                <div style="background: #fff3cd; padding: 20px; border-radius: 10px; border: 2px solid #ffc107; margin: 24px 0;">
+                    <h4 style="color: #856404; margin-bottom: 16px;">⚡ Quick Setup Examples</h4>
+                    
+                    <div style="margin: 16px 0;">
+                        <h5 style="color: #856404;">1. HTML + CDN (Fastest Setup):</h5>
+                        <div class="result-area" style="margin-top: 8px;">
+                            <pre><code>&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+    &lt;title&gt;EzyAPI Demo&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;div id="user-info"&gt;
+        &lt;h1&gt;{name}&lt;/h1&gt;
+        &lt;p&gt;Email: {email}&lt;/p&gt;
+    &lt;/div&gt;
+
+    &lt;script src="https://cdn.jsdelivr.net/npm/ezyapi@latest/ezyapi.min.js"&gt;&lt;/script&gt;
+    &lt;script&gt;
+        autoBind('/api/user', document.getElementById('user-info'));
+    &lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+                        </div>
+                    </div>
+                    
+                    <div style="margin: 16px 0;">
+                        <h5 style="color: #856404;">2. React Project Setup:</h5>
+                        <div class="result-area" style="margin-top: 8px;">
+                            <pre><code># Install EzyAPI
+npm install ezyapi
+
+# In your component
+import { callapi, apidata } from 'ezyapi';
+
+function App() {
+  const [data, setData] = useState(null);
+  
+  useEffect(() => {
+    apidata(callapi('/api/data')).then(setData);
+  }, []);
+  
+  return &lt;div&gt;{data?.message}&lt;/div&gt;;
+}</code></pre>
+                        </div>
+                    </div>
+                    
+                    <div style="margin: 16px 0;">
+                        <h5 style="color: #856404;">3. Node.js Server Setup:</h5>
+                        <div class="result-area" style="margin-top: 8px;">
+                            <pre><code># Install EzyAPI
+npm install ezyapi
+
+# In your server
+const { callapi, apidata } = require('ezyapi');
+
+app.get('/api/proxy/:id', async (req, res) => {
+  const data = await apidata(callapi(`/external-api/${req.params.id}`));
+  res.json(data);
+});</code></pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- How Easy Steps -->
+            <div class="demo-section">
+                
+                <div style="background: #e8f4fd; padding: 20px; border-radius: 10px; margin: 20px 0;">
+                    <h4>🔥 Available Placeholder Patterns:</h4>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 15px; margin-top: 15px;">
+                        <div>
+                            <strong>Simple Properties:</strong><br>
+                            <code>{name}</code> - Direct property<br>
+                            <code>{email}</code> - User email<br>
+                            <code>{id}</code> - User ID
+                        </div>
+                        <div>
+                            <strong>Nested Objects:</strong><br>
+                            <code>{user.name}</code> - Nested property<br>
+                            <code>{address.city}</code> - Address city<br>
+                            <code>{company.name}</code> - Company name
+                        </div>
+                        <div>
+                            <strong>Deep Nesting:</strong><br>
+                            <code>{profile.settings.theme}</code><br>
+                            <code>{data.results.0.name}</code><br>
+                            <code>{config.api.endpoints.user}</code>
+                        </div>
+                        <div>
+                            <strong>Optional Prefix:</strong><br>
+                            <code>{v.name}</code> - Same as {name}<br>
+                            <code>{v.user.email}</code> - Optional v. prefix<br>
+                            <code>{v.data.count}</code> - For clarity
+                        </div>
+                    </div>
+                </div>
+                
+                <div style="background: #fff3cd; padding: 20px; border-radius: 10px; border: 2px solid #ffc107;">
+                    <h4>💡 Pro Tips:</h4>
+                    <ul style="margin-left: 20px; line-height: 1.8;">
+                        <li><strong>Arrays:</strong> Use <code>{items.0.name}</code> for first item, <code>{items.length}</code> for count</li>
+                        <li><strong>Missing Data:</strong> Missing properties show as empty (no errors!)</li>
+                        <li><strong>Objects:</strong> Complex objects auto-convert to JSON strings</li>
+                        <li><strong>Multiple APIs:</strong> Call <code>autoBind()</code> multiple times for different sections</li>
+                        <li><strong>Custom Elements:</strong> Target specific divs: <code>autoBind('/api', document.getElementById('myDiv'))</code></li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Security & Production Section -->
+            <div class="demo-section">
+                <h3>🔒 Production Security & Best Practices</h3>
+                <p><strong>EzyAPI is production-ready</strong> with built-in security features. Here's what makes it enterprise-grade:</p>
+                
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 24px; margin: 24px 0;">
+                    <div style="background: linear-gradient(135deg, rgb(239 246 255) 0%, rgb(219 234 254) 100%); padding: 24px; border-radius: 12px; border: 1px solid rgb(147 197 253);">
+                        <h4 style="color: #1d4ed8; margin-bottom: 16px;">🛡️ Built-in Security Features</h4>
+                        <ul style="line-height: 1.8; color: #475569;">
+                            <li><strong>XSS Prevention:</strong> Only modifies text nodes, avoiding script injection</li>
+                            <li><strong>Input Validation:</strong> Strict regex validation for placeholders</li>
+                            <li><strong>Safe Data Binding:</strong> Automatic sanitization of undefined/null values</li>
+                            <li><strong>No eval():</strong> No dangerous dynamic code execution</li>
+                            <li><strong>CSP Compatible:</strong> Works with strict Content Security Policies</li>
+                        </ul>
+                    </div>
+                    
+                    <div style="background: linear-gradient(135deg, rgb(240 253 244) 0%, rgb(220 252 231) 100%); padding: 24px; border-radius: 12px; border: 1px solid rgb(34 197 94);">
+                        <h4 style="color: #059669; margin-bottom: 16px;">🏭 Enterprise Ready</h4>
+                        <ul style="line-height: 1.8; color: #475569;">
+                            <li><strong>Zero Dependencies:</strong> No third-party vulnerabilities</li>
+                            <li><strong>Lightweight:</strong> &lt;5KB minified, minimal attack surface</li>
+                            <li><strong>Error Boundaries:</strong> Graceful degradation on failures</li>
+                            <li><strong>Timeout Protection:</strong> Built-in request timeouts (10s default)</li>
+                            <li><strong>Professional Support:</strong> Enterprise support via Webdenn</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div style="background: #fff3cd; padding: 20px; border-radius: 10px; border: 2px solid #ffc107; margin: 24px 0;">
+                    <h4 style="color: #856404; margin-bottom: 16px;">🔧 Production Implementation Tips</h4>
+                    
+                    <div style="margin: 16px 0;">
+                        <h5 style="color: #856404;">1. Server-Side Security (Always Required):</h5>
+                        <div class="result-area" style="margin-top: 8px;">
+                            <pre><code>// Backend security essentials
+app.use(helmet()); // Security headers
+app.use(cors({ origin: 'your-domain.com' })); // Restrict CORS
+app.use(rateLimit({ windowMs: 15 * 60 * 1000, max: 100 })); // Rate limiting
+
+// Always validate/sanitize data on backend
+router.post('/api/users', validateInput, sanitizeData, (req, res) => {
+    // Your secure API logic
+});</code></pre>
+                        </div>
+                    </div>
+                    
+                    <div style="margin: 16px 0;">
+                        <h5 style="color: #856404;">2. Secure API Calls:</h5>
+                        <div class="result-area" style="margin-top: 8px;">
+                            <pre><code>// Use HTTPS and proper authentication
+const data = await callapi('https://api.yourdomain.com/users', {
+    headers: {
+        'Authorization': 'Bearer ' + secureToken,
+        'X-CSRF-Token': csrfToken,
+        'Content-Type': 'application/json'
+    }
+});</code></pre>
+                        </div>
+                    </div>
+                    
+                    <div style="margin: 16px 0;">
+                        <h5 style="color: #856404;">3. Content Security Policy:</h5>
+                        <div class="result-area" style="margin-top: 8px;">
+                            <pre><code>&lt;meta http-equiv="Content-Security-Policy" 
+      content="default-src 'self'; 
+               connect-src 'self' https://api.yourdomain.com;
+               script-src 'self' 'unsafe-inline';
+               style-src 'self' 'unsafe-inline' fonts.googleapis.com;"&gt;</code></pre>
+                        </div>
+                    </div>
+                    
+                    <div style="margin: 16px 0;">
+                        <h5 style="color: #856404;">4. Input Validation (Recommended):</h5>
+                        <div class="result-area" style="margin-top: 8px;">
+                            <pre><code>// Optional: Additional client-side validation
+function validateApiResponse(data) {
+    return {
+        name: sanitizeString(data.name),
+        email: validateEmail(data.email),
+        id: parseInt(data.id) || 0
+        // Add your validation logic
+    };
+}
+
+const rawData = await apidata(callapi('/api/user'));
+const safeData = validateApiResponse(rawData);
+bindData(safeData);</code></pre>
+                        </div>
+                    </div>
+                </div>
+                
+                <div style="background: linear-gradient(135deg, rgb(254 242 242) 0%, rgb(254 226 226) 100%); padding: 20px; border-radius: 10px; border: 1px solid rgb(248 113 113);">
+                    <h4 style="color: #dc2626; margin-bottom: 12px;">⚠️ Security Reminder</h4>
+                    <p style="color: #7f1d1d; line-height: 1.6;"><strong>Client-side security is just one layer!</strong> EzyAPI provides secure data binding, but always implement proper server-side validation, authentication, and authorization. Never trust client-side data - validate everything on your backend.</p>
+                </div>
+            </div>
+
+            <!-- Support Section -->
+            <div class="demo-section" style="text-align: center; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white;">
+                <h3>❤️ Love EzyAPI? Support the Project!</h3>
+                <p style="margin: 15px 0; font-size: 1.1em;">Help us make APIs even easier for everyone!</p>
+                
+                <div class="support-buttons" style="display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; margin-top: 32px;">
+                    <button onclick="window.open('https://github.com/nishant5harma/ezyapi', '_blank')" 
+                            style="background: #1f2937; border: 1px solid rgba(255,255,255,0.2); display: flex; align-items: center; gap: 8px; backdrop-filter: blur(10px);">
+                        <span>⭐</span> Star on GitHub
+                    </button>
+                    
+                    <button onclick="window.open('https://github.com/nishant5harma/ezyapi/fork', '_blank')" 
+                            style="background: var(--success-color); border: 1px solid rgba(255,255,255,0.2); display: flex; align-items: center; gap: 8px;">
+                        <span>🔄</span> Fork & Contribute
+                    </button>
+                    
+                    <button onclick="window.open('https://github.com/nishant5harma/ezyapi/issues', '_blank')" 
+                            style="background: var(--accent-color); border: 1px solid rgba(255,255,255,0.2); display: flex; align-items: center; gap: 8px;">
+                        <span>🐛</span> Report Issues
+                    </button>
+                    
+                    <button onclick="window.open('https://webdenn.com/support', '_blank')" 
+                            style="background: var(--warning-color); border: 1px solid rgba(255,255,255,0.2); display: flex; align-items: center; gap: 8px;">
+                        <span>☕</span> Support Project
+                    </button>
+                </div>
+                
+                <p style="margin-top: 20px; opacity: 0.9;">
+                    Made with ❤️ by the EzyAPI community | Tech Support by <a href="https://webdenn.com" style="color: #ffd700;">Webdenn</a>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Include EzyAPI -->
+    <script src="ezyapi.js"></script>
+    
+    <script>
+        // Show/hide body input based on method
+        document.getElementById('method').addEventListener('change', function() {
+            const bodyGroup = document.getElementById('body-group');
+            const method = this.value;
+            bodyGroup.style.display = ['POST', 'PUT', 'PATCH'].includes(method) ? 'block' : 'none';
+        });
+
+        // Example API configurations
+        const examples = {
+            user: {
+                url: 'https://randomuser.me/api/',
+                transform: (data) => ({
+                    name: `${data.results[0].name.first} ${data.results[0].name.last}`,
+                    info: data.results[0].email,
+                    extra: `From ${data.results[0].location.city}, ${data.results[0].location.country}`
+                })
+            },
+            joke: {
+                url: 'https://official-joke-api.appspot.com/random_joke',
+                transform: (data) => ({
+                    name: 'Programming Joke',
+                    info: data.setup,
+                    extra: data.punchline
+                })
+            },
+            cat: {
+                url: 'https://catfact.ninja/fact',
+                transform: (data) => ({
+                    name: 'Cat Fact',
+                    info: data.fact,
+                    extra: `Fact length: ${data.length} characters`
+                })
+            },
+            quote: {
+                url: 'https://api.quotable.io/random',
+                transform: (data) => ({
+                    name: data.author || 'Unknown Author',
+                    info: data.content || 'No quote available',
+                    extra: `Tags: ${data.tags && Array.isArray(data.tags) ? data.tags.join(', ') : 'No tags'}`
+                })
+            }
+        };
+
+        async function loadExample(type) {
+            const example = examples[type];
+            const resultDiv = document.getElementById('demo-result');
+            
+            try {
+                resultDiv.innerHTML = '<p class="loading">🔄 Loading...</p>';
+                
+                // Use EzyAPI to fetch data
+                const rawData = await callapi(example.url);
+                const transformedData = example.transform(rawData);
+                
+                // Use EzyAPI to bind data
+                bindData(transformedData, resultDiv);
+                
+                // Also show success message
+                setTimeout(() => {
+                    resultDiv.innerHTML += '<p class="success">✅ Data loaded and bound automatically with EzyAPI!</p>';
+                }, 500);
+                
+            } catch (error) {
+                console.error('API Demo Error:', error);
+                resultDiv.innerHTML = `
+                    <p class="error">❌ Error: ${error.message}</p>
+                    <p style="color: #666; font-size: 14px; margin-top: 8px;">
+                        This might be due to:
+                        <br>• API response format changes
+                        <br>• Network connectivity issues
+                        <br>• API service temporarily unavailable
+                    </p>
+                `;
+            }
+        }
+
+        async function testCustomAPI() {
+            const url = document.getElementById('api-url').value;
+            const method = document.getElementById('method').value;
+            const headersText = document.getElementById('headers').value;
+            const bodyText = document.getElementById('body').value;
+            const resultDiv = document.getElementById('custom-result');
+            const bindingDiv = document.getElementById('custom-binding');
+            
+            if (!url) {
+                alert('Please enter an API URL');
+                return;
+            }
+            
+            try {
+                resultDiv.innerHTML = '<p class="loading">🔄 Calling API with EzyAPI...</p>';
+                
+                // Prepare options
+                const options = { method };
+                
+                // Parse headers if provided
+                if (headersText.trim()) {
+                    try {
+                        options.headers = JSON.parse(headersText);
+                    } catch (e) {
+                        throw new Error('Invalid JSON in headers');
+                    }
+                }
+                
+                // Parse body if provided and method supports it
+                if (bodyText.trim() && ['POST', 'PUT', 'PATCH'].includes(method)) {
+                    try {
+                        options.body = JSON.parse(bodyText);
+                    } catch (e) {
+                        throw new Error('Invalid JSON in body');
+                    }
+                }
+                
+                // Use EzyAPI to make the call
+                const data = await apidata(callapi(url, options));
+                
+                // Display raw response
+                resultDiv.innerHTML = `
+                    <h4>📊 API Response:</h4>
+                    <pre><code>${JSON.stringify(data, null, 2)}</code></pre>
+                    <p class="success">✅ API call successful with EzyAPI!</p>
+                `;
+                
+                // Try to bind data to the binding demo
+                bindData(data, bindingDiv);
+                
+            } catch (error) {
+                resultDiv.innerHTML = `
+                    <h4>❌ Error:</h4>
+                    <p class="error">${error.message}</p>
+                    <p><em>Make sure the API URL is correct and supports CORS, or try one of the example APIs above.</em></p>
+                `;
+            }
+        }
+
+        // Show complete example function
+        function showCompleteExample() {
+            const modal = document.createElement('div');
+            modal.style.cssText = `
+                position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
+                background: rgba(0,0,0,0.8); z-index: 1000; display: flex; 
+                align-items: center; justify-content: center; padding: 20px;
+            `;
+            
+            modal.innerHTML = `
+                <div style="background: white; border-radius: 15px; padding: 30px; max-width: 800px; 
+                           max-height: 90vh; overflow-y: auto; position: relative;">
+                    <button onclick="this.parentElement.parentElement.remove()" 
+                            style="position: absolute; top: 15px; right: 20px; background: #dc3545; 
+                                   color: white; border: none; border-radius: 50%; width: 30px; height: 30px; 
+                                   cursor: pointer; font-size: 16px;">×</button>
+                    
+                    <h3 style="color: #333; margin-bottom: 20px;">📄 Complete Working Example</h3>
+                    <p style="color: #666; margin-bottom: 20px;">Copy this code into an HTML file and it's ready to use!</p>
+                    
+                    <div style="background: #f8f9fa; border-radius: 8px; padding: 20px; border: 2px solid #e9ecef;">
+                        <pre style="margin: 0; overflow-x: auto; font-size: 14px;"><code>&lt;!DOCTYPE html&gt;
+&lt;html lang="en"&gt;
+&lt;head&gt;
+    &lt;meta charset="UTF-8"&gt;
+    &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
+    &lt;title&gt;EzyAPI Profile Example&lt;/title&gt;
+    &lt;style&gt;
+        body { font-family: Arial, sans-serif; padding: 20px; background: #f5f5f5; }
+        #profileCard { 
+            background: white; border-radius: 10px; padding: 20px; 
+            max-width: 400px; margin: 0 auto; box-shadow: 0 4px 6px rgba(0,0,0,0.1); 
+        }
+        #profilePic { width: 100px; height: 100px; border-radius: 50%; }
+        #profileName { color: #333; margin: 15px 0 10px 0; }
+        #profileEmail { color: #666; margin: 5px 0; }
+    &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;h1&gt;User Profile Demo&lt;/h1&gt;
+    
+    &lt;!-- Your HTML with placeholders --&gt;
+    &lt;div id="profileCard"&gt;
+        &lt;img id="profilePic" src="{picture}" alt="Profile" /&gt;
+        &lt;h2 id="profileName"&gt;{name}&lt;/h2&gt;
+        &lt;p id="profileEmail"&gt;{email}&lt;/p&gt;
+        &lt;p id="profileCreated"&gt;Joined: {created_at}&lt;/p&gt;
+        &lt;p id="given_name"&gt;{given_name}&lt;/p&gt;
+    &lt;/div&gt;
+
+    &lt;!-- Include scripts --&gt;
+    &lt;script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"&gt;&lt;/script&gt;
+    &lt;script src="ezyapi.js"&gt;&lt;/script&gt;
+    
+    &lt;script&gt;
+        // Option 1: One line does everything! (Recommended)
+        autoBind("../../api/user-profile.php");
+        
+        // Option 2: Step by step (for debugging)
+        // var apiCall = callapi("../../api/user-profile.php");
+        // console.log(apidata(apiCall)); // Check console to see API response
+        
+        // Option 3: Target specific element
+        // autoBind("../../api/user-profile.php", document.getElementById('profileCard'));
+    &lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+                    </div>
+                    
+                    <div style="background: #e8f4fd; padding: 15px; border-radius: 8px; margin-top: 20px;">
+                        <h4 style="color: #0066cc; margin: 0 0 10px 0;">🎯 Expected API Response Format:</h4>
+                        <pre style="margin: 0; font-size: 14px;"><code>{
+  "success": true,
+  "data": {
+    "name": "John Doe",
+    "email": "john@example.com", 
+    "picture": "https://example.com/avatar.jpg",
+    "created_at": "2024-01-15",
+    "given_name": "John"
+  }
+}</code></pre>
+                    </div>
+                    
+                    <div style="margin-top: 20px; text-align: center;">
+                        <button onclick="copyToClipboard(this.parentElement.parentElement.querySelector('pre code').textContent)" 
+                                style="background: #28a745; color: white; border: none; padding: 10px 20px; 
+                                       border-radius: 5px; cursor: pointer; margin-right: 10px;">
+                            📋 Copy Code
+                        </button>
+                        <button onclick="this.parentElement.parentElement.parentElement.remove()" 
+                                style="background: #6c757d; color: white; border: none; padding: 10px 20px; 
+                                       border-radius: 5px; cursor: pointer;">
+                            Close
+                        </button>
+                    </div>
+                </div>
+            `;
+            
+            document.body.appendChild(modal);
+        }
+        
+        // Copy to clipboard function
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text).then(() => {
+                alert('Code copied to clipboard! 📋');
+            }).catch(() => {
+                // Fallback for older browsers
+                const textArea = document.createElement('textarea');
+                textArea.value = text;
+                document.body.appendChild(textArea);
+                textArea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textArea);
+                alert('Code copied to clipboard! 📋');
+            });
+        }
+
+        // Load a user example by default after page load
+        window.addEventListener('load', () => {
+            setTimeout(() => loadExample('user'), 1000);
+        });
+    </script>
+</body>
+</html>
